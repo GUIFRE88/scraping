@@ -49,7 +49,7 @@ function ModalInclude() {
 
     return (
       <>
-        <Button onClick={onOpen}>Incluir um novo perfil</Button>
+        <Button colorScheme='teal' onClick={onOpen}>Incluir um novo perfil</Button>
   
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
@@ -70,7 +70,7 @@ function ModalInclude() {
               </FormControl>
             
             <ModalFooter>
-              <Button colorScheme='blue' mr={3} type='submit'>
+              <Button colorScheme='teal' mr={3} type='submit'>
                 Salvar
               </Button>
               <Button variant='ghost' onClick={onClose}>Fechar</Button>
