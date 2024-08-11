@@ -1,11 +1,11 @@
 export interface Profile {
     id: number;
-    username: string;
+    name: string;
     followers: number;
     following: number;
     stars: number;
-    contributionsLastYear: number;
-    profileImage: string;
+    contributions_last_year: number;
+    profile_image: string;
     organization: string;
     location: string;
-}
+  }

@@ -1,22 +1,26 @@
 import { DeleteIcon, HamburgerIcon, RepeatClockIcon } from '@chakra-ui/icons';
 import { Tooltip, Td,Tbody, Thead, Th, Tr, Table, TableContainer, TableCaption, Wrap, WrapItem, Avatar, Center, useToast } from '@chakra-ui/react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Profile } from '../../types/profile.interface';
+import axios from 'axios';
+
 
 
 
 function TableList() {
-  const toast = useToast();
-  const profiles = [
-    {id:1,username: 'Guilherme Freude',followers: 15000,following: 50,stars: 200,contributionsLastYear: 500,profileImage: 'https://bit.ly/dan-abramov',organization: 'Facebook',location: 'San Francisco, CA'},
-    {id:1,username: 'Guilherme Freude',followers: 15000,following: 50,stars: 200,contributionsLastYear: 500,profileImage: 'https://bit.ly/dan-abramov',organization: 'Facebook',location: 'San Francisco, CA'},
-    {id:1,username: 'Guilherme Freude',followers: 15000,following: 50,stars: 200,contributionsLastYear: 500,profileImage: 'https://bit.ly/dan-abramov',organization: 'Facebook',location: 'San Francisco, CA'},
-    {id:1,username: 'Guilherme Freude',followers: 15000,following: 50,stars: 200,contributionsLastYear: 500,profileImage: 'https://bit.ly/dan-abramov',organization: 'Facebook',location: 'San Francisco, CA'},
-    {id:1,username: 'Guilherme Freude',followers: 15000,following: 50,stars: 200,contributionsLastYear: 500,profileImage: 'https://bit.ly/dan-abramov',organization: 'Facebook',location: 'San Francisco, CA'},
-    {id:1,username: 'Guilherme Freude',followers: 15000,following: 50,stars: 200,contributionsLastYear: 500,profileImage: 'https://bit.ly/dan-abramov',organization: 'Facebook',location: 'San Francisco, CA'},
-    {id:1,username: 'Guilherme Freude',followers: 15000,following: 50,stars: 200,contributionsLastYear: 500,profileImage: 'https://bit.ly/dan-abramov',organization: 'Facebook',location: 'San Francisco, CA'},
-    {id:1,username: 'Guilherme Freude',followers: 15000,following: 50,stars: 200,contributionsLastYear: 500,profileImage: 'https://bit.ly/dan-abramov',organization: 'Facebook',location: 'San Francisco, CA'},
-  ]
+  const toast = useToast()
+  const [profiles, setProfiles] = useState<Profile[]>([]);
+
+
+  useEffect(() => {
+    axios.get<Profile[]>('http://0.0.0.0:3000/profiles')
+      .then(response => {
+        setProfiles(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching profiles:', error);
+      });
+  }, []);
 
   const handleRemoveProfile = (profile: Profile) => {
     toast({
@@ -70,19 +74,20 @@ function TableList() {
           </Tr>
         </Thead>
         <Tbody>
+        console.log(profiles)
         {profiles.map(profile => (
           <Tr key={profile.id}>
-            <Td>{profile.username}</Td>
+            <Td>{profile.name}</Td>
             <Td isNumeric>{profile.followers}</Td>
             <Td isNumeric>{profile.following}</Td>
             <Td isNumeric>{profile.stars}</Td>
-            <Td isNumeric>{profile.contributionsLastYear}</Td>
+            <Td isNumeric>{profile.contributions_last_year}</Td>
             <Td>
               <Center>
-                <Tooltip label={profile.profileImage}>
+                <Tooltip label={profile.profile_image}>
                   <Wrap>
                     <WrapItem>
-                      <Avatar name={profile.username} src={profile.profileImage} />
+                      <Avatar name={profile.name} src={profile.profile_image} />
                     </WrapItem>
                   </Wrap>
                 </Tooltip>
