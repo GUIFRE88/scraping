@@ -17,6 +17,6 @@ test:
 
 production:
   <<: *default
-  database: your_production_database_name
+  database: production
   username: your_production_username
   password: your_production_password
