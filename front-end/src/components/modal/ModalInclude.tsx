@@ -12,6 +12,7 @@ import { Button,
          useToast, 
          useDisclosure, 
          Box} from "@chakra-ui/react";
+import axios from "axios";
 import { useState } from "react";
 
 
@@ -31,21 +32,51 @@ function ModalInclude() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
-    console.log('Submitted name:', name);
-    console.log('Submitted github:', github);
 
-    toast({
-      title: 'Finalizado',
-      description: "Perquisa finalizada com sucesso",
-      status: 'success',
-      duration: 9000,
-      isClosable: true,
-      position:'bottom-right',
+    // Make the POST request to the backend
+    axios.post('http://0.0.0.0:3000/profiles', {
+      name,
+      github
     })
-
-    onClose()
-  }
+    .then(response => {
+      // Assuming your backend sends a JSON response with status and message
+      const { status, message } = response.data;
+      if (status === 'success') {
+        toast({
+          title: 'Perfil adicionado.',
+          description: message,
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+          position: 'bottom-right',
+        });
+        setName('');
+        setGithub('');
+        onClose(); // Close the modal after successful submission
+      } else {
+        toast({
+          title: 'Erro ao adicionar perfil.',
+          description: message,
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+          position: 'bottom-right',
+        });
+      }
+    })
+    .catch(error => {
+      console.error('Erro ao adicionar o perfil:', error);
+      toast({
+        title: 'Erro ao adicionar perfil.',
+        description: 'Ocorreu um erro ao adicionar o perfil.',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+        position: 'bottom-right',
+      });
+    });
+  };
+  
 
     return (
       <>

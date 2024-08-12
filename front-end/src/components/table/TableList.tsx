@@ -5,9 +5,6 @@ import { Profile } from '../../types/profile.interface';
 import axios from 'axios';
 import ModalView from '../modalView/ModalView';
 
-
-
-
 function TableList() {
   const toast = useToast()
   const [profiles, setProfiles] = useState<Profile[]>([]);
@@ -95,7 +92,6 @@ function TableList() {
           </Tr>
         </Thead>
         <Tbody>
-        console.log(profiles)
         {profiles.map(profile => (
           <Tr key={profile.id}>
             <Td>{profile.name}</Td>
