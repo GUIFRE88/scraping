@@ -1,14 +1,27 @@
 class ProfilesController < ApplicationController
 
+  before_action :set_profile, only: [:show, :destroy]
+
   def index
-    puts 'Bateu aquiii'
     render json: Profile.all
+  end
+
+  def show
+    render json: @profile
+  end
+
+  def destroy
+    if @profile.destroy
+      render json: { status: 'success', message: 'Perfil excluído com sucesso!' }, status: :ok
+    else
+      render json: { status: 'error', message: 'Falha ao excluir o perfil!' }, status: :unprocessable_entity
+    end
   end
 
   private
 
   def set_profile
-    @profile = Profile.find(params[:id])
+    @profile = Profile.find_by_id(params[:id])
   end
 
   def profile_params

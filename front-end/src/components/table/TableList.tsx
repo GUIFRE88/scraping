@@ -3,6 +3,7 @@ import { Tooltip, Td,Tbody, Thead, Th, Tr, Table, TableContainer, TableCaption, 
 import React, { useEffect, useState } from 'react';
 import { Profile } from '../../types/profile.interface';
 import axios from 'axios';
+import ModalView from '../modalView/ModalView';
 
 
 
@@ -10,39 +11,59 @@ import axios from 'axios';
 function TableList() {
   const toast = useToast()
   const [profiles, setProfiles] = useState<Profile[]>([]);
-
+  const [selectedProfileId, setSelectedProfileId] = useState<number | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     axios.get<Profile[]>('http://0.0.0.0:3000/profiles')
       .then(response => {
-        setProfiles(response.data);
+        setProfiles(response.data)
       })
       .catch(error => {
         console.error('Error fetching profiles:', error);
-      });
-  }, []);
+      })
+  }, [])
 
   const handleRemoveProfile = (profile: Profile) => {
-    toast({
-      title: 'Excluir',
-      description: 'Excluir o perfil',
-      status: 'error',
-      duration: 5000,
-      isClosable: true,
-      position:'bottom-right',
+    axios.delete(`http://0.0.0.0:3000/profiles/${profile.id}`)
+    .then(response => {
+      const { status, message } = response.data;
+      if (status === 'success') {
+        setProfiles(prevProfiles => prevProfiles.filter(p => p.id !== profile.id))
+        toast({
+          title: 'Exclusão de perfil',
+          description: message,
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+          position:'bottom-right',
+        })
+      } else {
+        toast({
+          title: 'Erro na exclusão de perfil',
+          description: message,
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+          position:'bottom-right',
+        })
+      }
+    })
+    .catch(error => {
+      console.error('Erro ao excluir o registro:', error)
     })
   }
 
-  const handleModalProfile = (profile: Profile) => {
-    toast({
-      title: 'Modal aberto',
-      description: 'Modal aberto',
-      status: 'success',
-      duration: 5000,
-      isClosable: true,
-      position:'bottom-right',
-    })
-  }
+  const handleModalProfile = (profileId: number) => {
+    setSelectedProfileId(profileId);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedProfileId(null);
+  };
+
   const handleUpdateProfile = async (profile: Profile) => {
     toast({
       title: 'Perfil atualizado.',
@@ -97,17 +118,17 @@ function TableList() {
             <Td>{profile.location}</Td>
             <Td onClick={() => handleUpdateProfile(profile)}>
               <Tooltip label="Atualizar perfil do GitHub">
-                <RepeatClockIcon />
+                <RepeatClockIcon cursor='pointer'/>
               </Tooltip>
             </Td>
-            <Td onClick={() => handleModalProfile(profile)}>
+            <Td onClick={() => handleModalProfile(profile.id)}>
               <Tooltip label="Visualizar perfil do GitHub">
-                <HamburgerIcon />
+                <HamburgerIcon cursor='pointer'/>
               </Tooltip>
             </Td>
             <Td onClick={() => handleRemoveProfile(profile)}>
               <Tooltip label="Excluir perfil do GitHub da listagem">
-                <DeleteIcon />
+                <DeleteIcon cursor='pointer'/>
               </Tooltip>
             </Td>
           </Tr>
@@ -115,6 +136,13 @@ function TableList() {
         </Tbody>
       </Table>
     </TableContainer>
+    {selectedProfileId !== null && (
+        <ModalView 
+          isOpen={isModalOpen} 
+          onClose={handleCloseModal} 
+          profileId={selectedProfileId} 
+        />
+      )}
     </>
     )
 }
