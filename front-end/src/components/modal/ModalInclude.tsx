@@ -15,8 +15,11 @@ import { Button,
 import axios from "axios";
 import { useState } from "react";
 
+interface ModalIncludeProps {
+  refreshProfiles: () => void;
+}
 
-function ModalInclude() {
+const ModalInclude: React.FC<ModalIncludeProps> = ({ refreshProfiles }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [name, setName] = useState('')
   const [github, setGithub] = useState('')
@@ -53,6 +56,7 @@ function ModalInclude() {
         setName('');
         setGithub('');
         onClose(); // Close the modal after successful submission
+        refreshProfiles()
       } else {
         toast({
           title: 'Erro ao adicionar perfil.',
