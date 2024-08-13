@@ -1,4 +1,4 @@
-import { DeleteIcon, HamburgerIcon, RepeatClockIcon, Search2Icon, SearchIcon } from '@chakra-ui/icons';
+import { DeleteIcon, EditIcon, HamburgerIcon, RepeatClockIcon, Search2Icon, SearchIcon } from '@chakra-ui/icons';
 import { Box, Tooltip, Td,Tbody, Thead, Th, Tr, Table, TableContainer, TableCaption, Wrap, WrapItem, Avatar, Center, useToast, Input, HStack } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { Profile } from '../../types/profile.interface';
@@ -11,6 +11,7 @@ function TableList() {
   const [profiles, setProfiles] = useState<Profile[]>([]);
   const [selectedProfileId, setSelectedProfileId] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editOrView, setEditOrView] = useState('view')  
   const [filter, setFilter] = useState('')
 
   useEffect(() => {
@@ -60,6 +61,13 @@ function TableList() {
 
   const handleModalProfile = (profileId: number) => {
     setSelectedProfileId(profileId);
+    setEditOrView('view')
+    setIsModalOpen(true);
+  };
+
+  const handleEditProfile = (profileId: number) => {
+    setSelectedProfileId(profileId);
+    setEditOrView('edit')
     setIsModalOpen(true);
   };
 
@@ -171,6 +179,11 @@ function TableList() {
                   <HamburgerIcon cursor='pointer'/>
                 </Tooltip>
               </Td>
+              <Td onClick={() => handleEditProfile(profile.id)}>
+                <Tooltip label="Editar perfil do Github">
+                  <EditIcon cursor='pointer'/>
+                </Tooltip>
+              </Td>
               <Td onClick={() => handleRemoveProfile(profile)}>
                 <Tooltip label="Excluir perfil do GitHub da listagem">
                   <DeleteIcon cursor='pointer'/>
@@ -187,6 +200,7 @@ function TableList() {
           isOpen={isModalOpen} 
           onClose={handleCloseModal} 
           profileId={selectedProfileId} 
+          action={editOrView}
         />
       )}
     </>
