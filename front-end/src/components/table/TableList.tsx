@@ -67,13 +67,33 @@ function TableList() {
   };
 
   const handleUpdateProfile = async (profile: Profile) => {
-    toast({
-      title: 'Perfil atualizado.',
-      description: 'As informações do perfil foram atualizadas com sucesso.',
-      status: 'success',
-      duration: 5000,
-      isClosable: true,
-      position:'bottom-right',
+    axios.put(`http://0.0.0.0:3000/profiles/${profile.id}`)
+    .then(response => {
+      const { status, message } = response.data;
+      if (status === 'success') {
+        setProfiles(prevProfiles => prevProfiles.filter(p => p.id !== profile.id))
+        toast({
+          title: 'Perfil atualizado.',
+          description: 'As informações do perfil foram atualizadas com sucesso.',
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+          position:'bottom-right',
+        })
+        fetchProfiles()
+      } else {
+        toast({
+          title: 'Erro ao atualizar o perfil',
+          description: message,
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+          position:'bottom-right',
+        })
+      }
+    })
+    .catch(error => {
+      console.error('Erro ao excluir o registro:', error)
     })
   };
 

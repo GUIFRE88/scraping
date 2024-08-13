@@ -22,15 +22,15 @@ interface ModalIncludeProps {
 const ModalInclude: React.FC<ModalIncludeProps> = ({ refreshProfiles }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [name, setName] = useState('')
-  const [github, setGithub] = useState('')
+  const [link, setLink] = useState('')
   const toast = useToast()
 
   const handleName = (e: React.FocusEvent<HTMLInputElement>) => {
     setName(e.target.value)
   }
 
-  const handleGithub = (e: React.FocusEvent<HTMLInputElement>) => {
-    setGithub(e.target.value)
+  const handleLink = (e: React.FocusEvent<HTMLInputElement>) => {
+    setLink(e.target.value)
   }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -39,7 +39,7 @@ const ModalInclude: React.FC<ModalIncludeProps> = ({ refreshProfiles }) => {
     // Make the POST request to the backend
     axios.post('http://0.0.0.0:3000/profiles', {
       name,
-      github
+      link
     })
     .then(response => {
       // Assuming your backend sends a JSON response with status and message
@@ -54,7 +54,7 @@ const ModalInclude: React.FC<ModalIncludeProps> = ({ refreshProfiles }) => {
           position: 'bottom-right',
         });
         setName('');
-        setGithub('');
+        setLink('');
         onClose(); // Close the modal after successful submission
         refreshProfiles()
       } else {
@@ -100,7 +100,7 @@ const ModalInclude: React.FC<ModalIncludeProps> = ({ refreshProfiles }) => {
                 </Box>
                 <Box padding='10px'>
                   <FormLabel>Endereço web Github</FormLabel>
-                  <Input required placeholder='Ex. https://github.com/matz' type='github' value={github} onChange={handleGithub} />
+                  <Input required placeholder='Ex. https://github.com/matz' type='link' value={link} onChange={handleLink} />
                 </Box>
               </FormControl>
             
