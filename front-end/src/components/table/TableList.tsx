@@ -203,6 +203,7 @@ function TableList() {
           onClose={handleCloseModal} 
           profileId={selectedProfileId} 
           action={editOrView}
+          refreshProfiles={fetchProfiles}
         />
       )}
     </>

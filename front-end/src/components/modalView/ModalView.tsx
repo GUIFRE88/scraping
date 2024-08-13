@@ -7,14 +7,12 @@ import {
   ModalBody, 
   ModalCloseButton, 
   ModalContent, 
-  ModalFooter, 
   ModalHeader, 
   ModalOverlay, 
   Box, 
   Center, 
   Avatar, 
   Text, 
-  Link, 
   Flex 
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
@@ -24,11 +22,12 @@ import { Profile } from "../../types/profile.interface";
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  profileId?: number; // ID do perfil para editar ou visualizar
+  profileId?: number;
   action: string; // Define a ação: 'view' ou 'edit'
+  refreshProfiles: () => void;
 }
 
-function ModalInclude({ isOpen, onClose, profileId, action }: ModalProps) {
+function ModalView({ isOpen, onClose, profileId, action, refreshProfiles }: ModalProps) {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [name, setName] = useState('');
   const [nick, setNick] = useState('');
@@ -100,8 +99,18 @@ function ModalInclude({ isOpen, onClose, profileId, action }: ModalProps) {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    console.log('aaaaaaaaaaaaaaaaaaaaaa')
+    console.log('Botão de submit clicado');
+    axios.put(`http://0.0.0.0:3000/profiles/${profileId}`, {
+      name,
+      link
+    })
+    .then(response => {
+      onClose()
+      refreshProfiles()
+    })
+    .catch(error => {
+      console.error('Erro ao adicionar o perfil:', error);
+    });
   };
 
   return (
@@ -136,7 +145,7 @@ function ModalInclude({ isOpen, onClose, profileId, action }: ModalProps) {
                       value={link}
                       onChange={handleLinkChange}
                       placeholder='Link'
-                      isDisabled={action === 'view'} // Desativa o campo se estiver no modo de visualização
+                      isDisabled={action === 'view'}
                       flex='1'
                     />
                   </Flex>
@@ -148,7 +157,7 @@ function ModalInclude({ isOpen, onClose, profileId, action }: ModalProps) {
                       value={nick}
                       onChange={handleNickChange}
                       type='string'
-                       isDisabled
+                      isDisabled
                     />
                   </Flex>
                 </FormControl>
@@ -222,25 +231,25 @@ function ModalInclude({ isOpen, onClose, profileId, action }: ModalProps) {
                     />
                   </Flex>
                 </FormControl>
+                <Flex justifyContent='flex-end' mt={4}>
+                  {action === 'edit' && (
+                    <Button colorScheme="teal" mr={3} type='submit'>
+                      Salvar
+                    </Button>
+                  )}
+                  <Button mr={3} onClick={onClose}>
+                    Fechar
+                  </Button>
+                </Flex>
               </Box>
             </form>
           ) : (
             <Text>Carregando perfil...</Text>
           )}
         </ModalBody>
-        <ModalFooter>
-          {action === 'edit' && (
-            <Button colorScheme="teal" mr={3} type='submit' form='profile-form'>
-              Salvar
-            </Button>
-          )}
-          <Button mr={3} onClick={onClose}>
-            Fechar
-          </Button>
-        </ModalFooter>
       </ModalContent>
     </Modal>
   );
 }
 
-export default ModalInclude;
+export default ModalView;

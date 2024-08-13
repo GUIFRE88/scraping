@@ -83,8 +83,8 @@ class ProfilesController < ApplicationController
     @profile = Profile.find_by_id(params[:id])
     if @profile.present?
 
-      name = @profile.name
-      link = @profile.link
+      name = params[:name].present? ? params[:name] : @profile.name
+      link = params[:link].present? ? params[:link] : @profile.link
 
       begin
         response = HTTParty.get(link)
