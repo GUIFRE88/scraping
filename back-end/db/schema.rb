@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_08_13_104441) do
+ActiveRecord::Schema[7.0].define(version: 2024_08_13_155238) do
   create_table "profiles", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.integer "followers"
@@ -23,6 +23,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_13_104441) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "link"
+    t.index ["link"], name: "index_profiles_on_link"
+    t.index ["location"], name: "index_profiles_on_location"
+    t.index ["name"], name: "index_profiles_on_name"
+    t.index ["organization"], name: "index_profiles_on_organization"
   end
 
 end

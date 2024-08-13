@@ -8,4 +8,5 @@ export interface Profile {
     profile_image: string;
     organization: string;
     location: string;
+    link: string;
   }

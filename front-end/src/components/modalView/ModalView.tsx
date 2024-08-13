@@ -45,8 +45,8 @@ const ModalView: React.FC<ModalViewProps> = ({ isOpen, onClose, profileId }) => 
             <Text padding='10px'><strong>Localização:</strong> {profile.location}</Text>
             <Text padding='10px'>
               <Text as="span" fontWeight="bold">Link:</Text>{' '}
-              <Link href={profile.profile_image} isExternal color='teal.500'>
-                {profile.profile_image}
+              <Link href={profile.link} isExternal color='teal.500'>
+                {profile.link}
               </Link>
             </Text>
           </Box>

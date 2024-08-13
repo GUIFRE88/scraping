@@ -6,7 +6,21 @@ class ProfilesController < ApplicationController
   before_action :set_profile, only: [:show, :update, :destroy]
 
   def index
-    render json: Profile.all
+    if params[:filter].present?
+      search_query = "%#{params[:filter]}%"
+      profile_table = Profile.arel_table
+
+      query = profile_table[:name].matches(search_query)
+               .or(profile_table[:link].matches(search_query))
+               .or(profile_table[:organization].matches(search_query))
+               .or(profile_table[:location].matches(search_query))
+
+      @profiles = Profile.where(query)
+    else
+      @profiles = Profile.all
+    end
+
+    render json: @profiles
   end
 
   def show

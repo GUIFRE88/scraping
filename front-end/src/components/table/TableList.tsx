@@ -1,5 +1,5 @@
-import { DeleteIcon, HamburgerIcon, RepeatClockIcon } from '@chakra-ui/icons';
-import { Box, Tooltip, Td,Tbody, Thead, Th, Tr, Table, TableContainer, TableCaption, Wrap, WrapItem, Avatar, Center, useToast } from '@chakra-ui/react';
+import { DeleteIcon, HamburgerIcon, RepeatClockIcon, Search2Icon, SearchIcon } from '@chakra-ui/icons';
+import { Box, Tooltip, Td,Tbody, Thead, Th, Tr, Table, TableContainer, TableCaption, Wrap, WrapItem, Avatar, Center, useToast, Input, HStack } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { Profile } from '../../types/profile.interface';
 import axios from 'axios';
@@ -11,15 +11,17 @@ function TableList() {
   const [profiles, setProfiles] = useState<Profile[]>([]);
   const [selectedProfileId, setSelectedProfileId] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [filter, setFilter] = useState('')
 
   useEffect(() => {
-    fetchProfiles()
-  }, [])
+    fetchProfiles();
+  }, []);
+
 
   const fetchProfiles = () => {
-    axios.get<Profile[]>('http://0.0.0.0:3000/profiles')
+    axios.get<Profile[]>(`http://0.0.0.0:3000/profiles?filter=${filter}`)
       .then(response => {
-        setProfiles(response.data)
+        setProfiles(response.data);
       })
       .catch(error => {
         console.error('Error fetching profiles:', error);
@@ -97,10 +99,28 @@ function TableList() {
     })
   };
 
+  const handleFilterChange = () =>{
+    fetchProfiles();
+  }
+
+  const handleSetFilter = (e: React.FocusEvent<HTMLInputElement>) =>{
+    setFilter(e.target.value)
+  }
+
+
   return (
     <>
     <Box display="flex" justifyContent="flex-end" mb={2}>
+    <HStack spacing={4} mb={4}>
+      <Input
+        placeholder='Filtrar perfis'
+        onChange={handleSetFilter}
+        width='auto'
+        value={filter}
+      />
+      <Search2Icon cursor='pointer' onClick={handleFilterChange}/>
       <ModalInclude refreshProfiles={fetchProfiles} />
+      </HStack>
     </Box>
     <Box color='black'>
       <TableContainer>
