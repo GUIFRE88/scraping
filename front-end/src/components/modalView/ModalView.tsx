@@ -19,19 +19,7 @@ import {
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import axios from 'axios';
-
-interface Profile {
-  id: number;
-  name: string;
-  link: string;
-  profile_image: string;
-  followers: number;
-  following: number;
-  stars: number;
-  contributions_last_year: number;
-  organization: string;
-  location: string;
-}
+import { Profile } from "../../types/profile.interface";
 
 interface ModalProps {
   isOpen: boolean;
