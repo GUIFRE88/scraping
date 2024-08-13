@@ -135,11 +135,12 @@ function TableList() {
         <Table variant='striped' colorScheme='teal'>
           <Thead>
             <Tr>
-              <Th>Nome de usuário do Github</Th>
+              <Th>Nome</Th>
+              <Th>Apelido</Th>
               <Th>Nº de Followers</Th>
               <Th>Nº de Following</Th>
               <Th>Nº de Stars</Th>
-              <Th>Nº de contribuições no último ano</Th>
+              <Th>Nº de contribuições</Th>
               <Th>Imagem de perfil</Th>
               <Th>Organização</Th>
               <Th>Localização</Th>
@@ -152,6 +153,7 @@ function TableList() {
           {profiles.map(profile => (
             <Tr key={profile.id}>
               <Td>{profile.name}</Td>
+              <Td>{profile.nick_name}</Td>
               <Td isNumeric>{profile.followers}</Td>
               <Td isNumeric>{profile.following}</Td>
               <Td isNumeric>{profile.stars}</Td>

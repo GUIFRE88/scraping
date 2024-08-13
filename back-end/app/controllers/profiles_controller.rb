@@ -44,13 +44,14 @@ class ProfilesController < ApplicationController
       doc = Nokogiri::HTML(response.body)
 
       # Extrair informações da página
-      followers = doc.at_css('a[href$="/followers"]')&.text&.strip.to_i
-      following = doc.at_css('a[href$="/following"]')&.text&.strip.to_i
-      stars = doc.at_css('a[href$="/stars"]')&.text&.strip.to_i
-      contributions_last_year = doc.at_css('.js-yearly-contributions')&.text&.strip.to_i
+      followers = doc.at_css('span.text-bold.color-fg-default')&.text&.strip.to_f
+      following = doc.at_css('a[href*="tab=following"] span.text-bold.color-fg-default')&.text&.strip.to_f
+      stars = doc.at_css('a[data-tab-item="stars"]')&.css('span.Counter')&.last&.text&.strip.to_f
+      contributions_last_year = doc.at_css('.f4.text-normal.mb-2')&.text&.strip.to_f
       profile_image = doc.at_css('img.avatar-user')&.[]('src') || ''
-      organization = doc.at_css('a[data-hovercard-type="organization"]')&.text&.strip || 'N/A'
+      organization = doc.at_css('.p-org')&.text&.strip || 'N/A'
       location = doc.at_css('.p-label')&.text&.strip || 'N/A'
+      nick_name = doc.at_css('span.p-nickname')&.text&.strip || 'N/A'
 
       # Criar o perfil com os dados extraídos
       @profile = Profile.new(
@@ -62,7 +63,8 @@ class ProfilesController < ApplicationController
         contributions_last_year: contributions_last_year,
         profile_image: profile_image,
         organization: organization,
-        location: location
+        location: location,
+        nick_name: nick_name
       )
 
       if @profile.save
@@ -89,13 +91,14 @@ class ProfilesController < ApplicationController
         doc = Nokogiri::HTML(response.body)
 
         # Extrair informações da página
-        followers = doc.at_css('a[href$="/followers"]')&.text&.strip.to_i
-        following = doc.at_css('a[href$="/following"]')&.text&.strip.to_i
-        stars = doc.at_css('a[href$="/stars"]')&.text&.strip.to_i
-        contributions_last_year = doc.at_css('.js-yearly-contributions')&.text&.strip.to_i
+        followers = doc.at_css('span.text-bold.color-fg-default')&.text&.strip.to_f
+        following = doc.at_css('a[href*="tab=following"] span.text-bold.color-fg-default')&.text&.strip.to_f
+        stars = doc.at_css('a[data-tab-item="stars"]')&.css('span.Counter')&.last&.text&.strip.to_f
+        contributions_last_year = doc.at_css('.f4.text-normal.mb-2')&.text&.strip.to_f
         profile_image = doc.at_css('img.avatar-user')&.[]('src') || ''
-        organization = doc.at_css('a[data-hovercard-type="organization"]')&.text&.strip || 'N/A'
+        organization = doc.at_css('.p-org')&.text&.strip || 'N/A'
         location = doc.at_css('.p-label')&.text&.strip || 'N/A'
+        nick_name = doc.at_css('span.p-nickname')&.text&.strip || 'N/A'
        
         
           @profile.update(
@@ -106,7 +109,8 @@ class ProfilesController < ApplicationController
             contributions_last_year: contributions_last_year,
             profile_image: profile_image,
             organization: organization,
-            location: location
+            location: location,
+            nick_name: nick_name
           )
 
           if @profile.save

@@ -31,6 +31,7 @@ interface ModalProps {
 function ModalInclude({ isOpen, onClose, profileId, action }: ModalProps) {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [name, setName] = useState('');
+  const [nick, setNick] = useState('');
   const [link, setLink] = useState('');
   const [followers, setFollowers] = useState<number>(0);
   const [following, setFollowing] = useState<number>(0);
@@ -47,6 +48,7 @@ function ModalInclude({ isOpen, onClose, profileId, action }: ModalProps) {
           setProfile(data);
           setName(data.name);
           setLink(data.link);
+          setNick(data.nick_name)
           setFollowers(data.followers);
           setFollowing(data.following);
           setStars(data.stars);
@@ -72,6 +74,10 @@ function ModalInclude({ isOpen, onClose, profileId, action }: ModalProps) {
     setFollowers(Number(e.target.value));
   };
 
+  const handleNickChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNick(e.target.value);
+  };
+
   const handleFollowingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFollowing(Number(e.target.value));
   };
@@ -95,9 +101,7 @@ function ModalInclude({ isOpen, onClose, profileId, action }: ModalProps) {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (profile) {
-     // onUpdate?.({ ...profile, name, link, followers, following, stars, contributions_last_year: contributionsLastYear, organization, location });
-    }
+    console.log('aaaaaaaaaaaaaaaaaaaaaa')
   };
 
   return (
@@ -134,6 +138,17 @@ function ModalInclude({ isOpen, onClose, profileId, action }: ModalProps) {
                       placeholder='Link'
                       isDisabled={action === 'view'} // Desativa o campo se estiver no modo de visualização
                       flex='1'
+                    />
+                  </Flex>
+                </FormControl>
+                <FormControl mb={4}>
+                  <Flex alignItems='center'>
+                    <FormLabel mb={0} mr={4} flexShrink={0}>Apelido</FormLabel>
+                    <Input
+                      value={nick}
+                      onChange={handleNickChange}
+                      type='string'
+                       isDisabled
                     />
                   </Flex>
                 </FormControl>

@@ -9,4 +9,5 @@ export interface Profile {
     organization: string;
     location: string;
     link: string;
+    nick_name: string;
   }
