@@ -1,6 +1,6 @@
 import { Center, Flex, Square, Text, Box, Heading, Stack } from '@chakra-ui/react';
 import React from 'react';
-import TableList from './components/table/TableList';
+import TableList from './components/tableList/TableList';
 
 
 function App() {

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { ProfileInterface } from '../../types/profile.interface';
 import axios from 'axios';
 import ModalView from '../modalView/ModalView';
-import ModalInclude from '../modal/ModalInclude';
+import ModalInclude from '../modalInclude/ModalInclude';
 
 function TableList() {
   const toast = useToast()
