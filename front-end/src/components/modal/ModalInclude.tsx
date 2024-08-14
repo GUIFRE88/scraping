@@ -48,7 +48,7 @@ const ModalInclude: React.FC<ModalIncludeProps> = ({ refreshProfiles }) => {
         toast({
           title: 'Perfil adicionado.',
           description: message,
-          status: 'success',
+          status: status,
           duration: 5000,
           isClosable: true,
           position: 'bottom-right',
@@ -61,7 +61,7 @@ const ModalInclude: React.FC<ModalIncludeProps> = ({ refreshProfiles }) => {
         toast({
           title: 'Erro ao adicionar perfil.',
           description: message,
-          status: 'error',
+          status: status,
           duration: 5000,
           isClosable: true,
           position: 'bottom-right',
@@ -69,10 +69,9 @@ const ModalInclude: React.FC<ModalIncludeProps> = ({ refreshProfiles }) => {
       }
     })
     .catch(error => {
-      console.error('Erro ao adicionar o perfil:', error);
       toast({
         title: 'Erro ao adicionar perfil.',
-        description: 'Ocorreu um erro ao adicionar o perfil.',
+        description: error,
         status: 'error',
         duration: 5000,
         isClosable: true,

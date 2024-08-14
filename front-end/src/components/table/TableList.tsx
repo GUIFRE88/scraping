@@ -85,7 +85,7 @@ function TableList() {
         toast({
           title: 'Perfil atualizado.',
           description: 'As informações do perfil foram atualizadas com sucesso.',
-          status: 'success',
+          status: status,
           duration: 5000,
           isClosable: true,
           position:'bottom-right',
@@ -95,7 +95,7 @@ function TableList() {
         toast({
           title: 'Erro ao atualizar o perfil',
           description: message,
-          status: 'error',
+          status: status,
           duration: 5000,
           isClosable: true,
           position:'bottom-right',
