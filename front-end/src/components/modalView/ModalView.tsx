@@ -1,57 +1,47 @@
-// src/components/ModalView.tsx
-import { Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Box, Center, Avatar, Text, Flex } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { ProfileInterface } from "../../types/profile.interface";
-import { useProfile } from "../../hooks/useProfile";
-import { useCustomToast } from "../../hooks/useCustomToast";
+import { Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Box, Center, Avatar, Text, Flex } from "@chakra-ui/react"
+import { useEffect, useState } from "react"
+import { useProfile } from "../../hooks/useProfile"
+import { useCustomToast } from "../../hooks/useCustomToast"
+import { ModalInterface } from "../../types/modal.interface";
 
-interface ModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  profileId?: number;
-  action: string // Define a ação: 'view' ou 'edit'
-  refreshProfiles: () => void;
-}
+const ModalView: React.FC<ModalInterface> = ({ isOpen, onClose, profileId, action, refreshProfiles }) => {
+  const { profile, loading, handleUpdateProfile } = useProfile(profileId)
+  const [name, setName] = useState('')
+  const [link, setLink] = useState('')
+  const [nick, setNick] = useState('')
+  const [followers, setFollowers] = useState<number>(0)
+  const [following, setFollowing] = useState<number>(0)
+  const [stars, setStars] = useState<number>(0)
+  const [contributionsLastYear, setContributionsLastYear] = useState<number>(0)
+  const [organization, setOrganization] = useState('')
+  const [location, setLocation] = useState('')
+  const showToast = useCustomToast()
 
-const ModalView: React.FC<ModalProps> = ({ isOpen, onClose, profileId, action, refreshProfiles }) => {
-  const { profile, loading, handleUpdateProfile } = useProfile(profileId);
-  const [name, setName] = useState('');
-  const [link, setLink] = useState('');
-  const [nick, setNick] = useState('');
-  const [followers, setFollowers] = useState<number>(0);
-  const [following, setFollowing] = useState<number>(0);
-  const [stars, setStars] = useState<number>(0);
-  const [contributionsLastYear, setContributionsLastYear] = useState<number>(0);
-  const [organization, setOrganization] = useState('');
-  const [location, setLocation] = useState('');
-  const showToast = useCustomToast();
-
-  // Update state when profile data changes
   useEffect(() => {
     if (profile) {
-      setName(profile.name);
-      setLink(profile.link);
-      setNick(profile.nick_name);
-      setFollowers(profile.followers);
-      setFollowing(profile.following);
-      setStars(profile.stars);
-      setContributionsLastYear(profile.contributions_last_year);
-      setOrganization(profile.organization);
-      setLocation(profile.location);
+      setName(profile.name)
+      setLink(profile.link)
+      setNick(profile.nick_name)
+      setFollowers(profile.followers)
+      setFollowing(profile.following)
+      setStars(profile.stars)
+      setContributionsLastYear(profile.contributions_last_year)
+      setOrganization(profile.organization)
+      setLocation(profile.location)
     }
-  }, [profile]);
+  }, [profile])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
-      await handleUpdateProfile({ name, link });
-      showToast('Perfil atualizado.', 'Perfil atualizado com sucesso.', 'success');
-      onClose();
-      refreshProfiles();
+      await handleUpdateProfile({ name, link })
+      showToast('Perfil atualizado.', 'Perfil atualizado com sucesso.', 'success')
+      onClose()
+      refreshProfiles()
     } catch (error) {
-      showToast('Erro ao atualizar perfil.', 'Ocorreu um erro ao atualizar o perfil.', 'error');
+      showToast('Erro ao atualizar perfil.', 'Ocorreu um erro ao atualizar o perfil.', 'error')
     }
-  };
+  }
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -192,4 +182,4 @@ const ModalView: React.FC<ModalProps> = ({ isOpen, onClose, profileId, action, r
   );
 };
 
-export default ModalView;
+export default ModalView

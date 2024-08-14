@@ -1,36 +1,33 @@
-import { Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Box } from "@chakra-ui/react";
-import { useState } from "react";
-import { createProfile } from "../../services/profileService";
-import { useCustomToast } from "../../hooks/useCustomToast";
+import { Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Box } from "@chakra-ui/react"
+import { useState } from "react"
+import { createProfile } from "../../services/profileService"
+import { useCustomToast } from "../../hooks/useCustomToast"
+import { ModalIncludeInterface } from "../../types/modal.include.interface";
 
-interface ModalIncludeProps {
-  refreshProfiles: () => void;
-}
+const ModalInclude: React.FC<ModalIncludeInterface> = ({ refreshProfiles }) => {
+  const [name, setName] = useState('')
+  const [link, setLink] = useState('')
+  const [isOpen, setIsOpen] = useState(false)
+  const showToast = useCustomToast()
 
-const ModalInclude: React.FC<ModalIncludeProps> = ({ refreshProfiles }) => {
-  const [name, setName] = useState('');
-  const [link, setLink] = useState('');
-  const [isOpen, setIsOpen] = useState(false);
-  const showToast = useCustomToast();
-
-  const handleName = (e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value);
-  const handleLink = (e: React.ChangeEvent<HTMLInputElement>) => setLink(e.target.value);
+  const handleName = (e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)
+  const handleLink = (e: React.ChangeEvent<HTMLInputElement>) => setLink(e.target.value)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
-      const { status, message } = await createProfile(name, link);
+      const { status, message } = await createProfile(name, link)
       if (status === 'success') {
-        showToast('Perfil adicionado.', message, 'success');
-        setName('');
-        setLink('');
-        setIsOpen(false);
-        refreshProfiles();
+        showToast('Perfil adicionado.', message, 'success')
+        setName('')
+        setLink('')
+        setIsOpen(false)
+        refreshProfiles()
       } else {
-        showToast('Erro ao adicionar perfil.', message, 'error');
+        showToast('Erro ao adicionar perfil.', message, 'error')
       }
     } catch (error) {
-     showToast('Erro', 'Erro ao adicionar perfil.', 'error');
+     showToast('Erro', 'Erro ao adicionar perfil.', 'error')
     }
   };
 
@@ -69,4 +66,4 @@ const ModalInclude: React.FC<ModalIncludeProps> = ({ refreshProfiles }) => {
   );
 };
 
-export default ModalInclude;
+export default ModalInclude

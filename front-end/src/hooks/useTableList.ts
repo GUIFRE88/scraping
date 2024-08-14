@@ -1,83 +1,83 @@
-import { useState, useEffect } from 'react';
-import { deleteProfile, fetchAllProfile, updateThisProfile } from '../services/profileService';
-import { ProfileInterface } from '../types/profile.interface';
-import { useCustomToast } from './useCustomToast';
+import { useState, useEffect } from 'react'
+import { deleteProfile, fetchAllProfile, updateThisProfile } from '../services/profileService'
+import { ProfileInterface } from '../types/profile.interface'
+import { useCustomToast } from './useCustomToast'
 
 
 export const useTableList = () => {
-  const showToast = useCustomToast();
-  const [profiles, setProfiles] = useState<ProfileInterface[]>([]);
-  const [selectedProfileId, setSelectedProfileId] = useState<number | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editOrView, setEditOrView] = useState<'view' | 'edit'>('view');
-  const [filter, setFilter] = useState('');
+  const showToast = useCustomToast()
+  const [profiles, setProfiles] = useState<ProfileInterface[]>([])
+  const [selectedProfileId, setSelectedProfileId] = useState<number | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [editOrView, setEditOrView] = useState<'view' | 'edit'>('view')
+  const [filter, setFilter] = useState('')
 
   const fetchProfiles = () => {
     fetchAllProfile(filter)
       .then(response => {
-        setProfiles(response);
+        setProfiles(response)
       })
       .catch(error => {
-        console.error('Error fetching profiles:', error);
-      });
-  };
+        console.error('Error fetching profiles:', error)
+      })
+  }
 
   const handleRemoveProfile = async (profile: ProfileInterface) => {
     try {
-      const { status, message } = await deleteProfile(profile.id);
+      const { status, message } = await deleteProfile(profile.id)
       if (status === 'success') {
-        showToast('Exclusão de perfil', message, 'success');
-        fetchProfiles();
+        showToast('Exclusão de perfil', message, 'success')
+        fetchProfiles()
       } else {
-        showToast('Erro na exclusão de perfil', message, 'error');
+        showToast('Erro na exclusão de perfil', message, 'error')
       }
     } catch (error) {
-      console.error('Erro ao excluir o registro:', error);
+      console.error('Erro ao excluir o registro:', error)
     }
-  };
+  }
 
   const handleUpdateProfile = async (profile: ProfileInterface) => {
     try {
-      const { status, message } = await updateThisProfile(profile.id, profile);
+      const { status, message } = await updateThisProfile(profile.id, profile)
       if (status === 'success') {
-        fetchProfiles();
-        showToast('Perfil atualizado', message, 'success');
+        fetchProfiles()
+        showToast('Perfil atualizado', message, 'success')
       } else {
-        showToast('Erro ao atualizar o perfil', message, 'error');
+        showToast('Erro ao atualizar o perfil', message, 'error')
       }
     } catch (error) {
-      console.error('Erro ao atualizar o perfil:', error);
+      console.error('Erro ao atualizar o perfil:', error)
     }
-  };
+  }
 
   const handleFilterChange = () => {
-    fetchProfiles();
-  };
+    fetchProfiles()
+  }
 
   const handleSetFilter = (e: React.FocusEvent<HTMLInputElement>) => {
-    setFilter(e.target.value);
-  };
+    setFilter(e.target.value)
+  }
 
   const handleModalProfile = (profileId: number) => {
-    setSelectedProfileId(profileId);
-    setEditOrView('view');
-    setIsModalOpen(true);
-  };
+    setSelectedProfileId(profileId)
+    setEditOrView('view')
+    setIsModalOpen(true)
+  }
 
   const handleEditProfile = (profileId: number) => {
-    setSelectedProfileId(profileId);
-    setEditOrView('edit');
-    setIsModalOpen(true);
-  };
+    setSelectedProfileId(profileId)
+    setEditOrView('edit')
+    setIsModalOpen(true)
+  }
 
   const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setSelectedProfileId(null);
-  };
+    setIsModalOpen(false)
+    setSelectedProfileId(null)
+  }
 
   useEffect(() => {
-    fetchProfiles();
-  }, [filter]);
+    fetchProfiles()
+  }, [filter])
 
   return {
     profiles,
@@ -91,5 +91,5 @@ export const useTableList = () => {
     handleModalProfile,
     handleEditProfile,
     handleCloseModal,
-  };
-};
+  }
+}

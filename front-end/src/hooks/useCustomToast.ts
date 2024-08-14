@@ -1,7 +1,7 @@
 import { useToast } from "@chakra-ui/react"
 
 export const useCustomToast = () => {
-  const toast = useToast();
+  const toast = useToast()
 
   const showToast = (title: string, description: string, status: "success" | "error") => {
     toast({
@@ -15,4 +15,4 @@ export const useCustomToast = () => {
   };
 
   return showToast
-};
+}

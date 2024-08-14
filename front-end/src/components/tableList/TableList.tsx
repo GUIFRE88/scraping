@@ -1,9 +1,8 @@
-import React from 'react';
-import { Box, Tooltip, Td, Tbody, Thead, Th, Tr, Table, TableContainer, Input, HStack, Center, Wrap, WrapItem, Avatar } from '@chakra-ui/react';
-import { DeleteIcon, EditIcon, HamburgerIcon, RepeatClockIcon, Search2Icon } from '@chakra-ui/icons';
-import ModalView from '../modalView/ModalView';
-import ModalInclude from '../modalInclude/ModalInclude';
-import { useTableList } from '../../hooks/useTableList';
+import { Box, Tooltip, Td, Tbody, Thead, Th, Tr, Table, TableContainer, Input, HStack, Center, Wrap, WrapItem, Avatar } from '@chakra-ui/react'
+import { DeleteIcon, EditIcon, HamburgerIcon, RepeatClockIcon, Search2Icon } from '@chakra-ui/icons'
+import ModalView from '../modalView/ModalView'
+import ModalInclude from '../modalInclude/ModalInclude'
+import { useTableList } from '../../hooks/useTableList'
 
 function TableList() {
   const {
@@ -18,7 +17,7 @@ function TableList() {
     handleModalProfile,
     handleEditProfile,
     handleCloseModal,
-  } = useTableList();
+  } = useTableList()
 
   return (
     <>
@@ -29,7 +28,6 @@ function TableList() {
             onChange={handleSetFilter}
             width='auto'
           />
-          <Search2Icon cursor='pointer' onClick={handleFilterChange} />
           <ModalInclude refreshProfiles={handleFilterChange} />
         </HStack>
       </Box>
@@ -110,7 +108,7 @@ function TableList() {
         />
       )}
     </>
-  );
+  )
 }
 
-export default TableList;
+export default TableList
