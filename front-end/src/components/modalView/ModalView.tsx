@@ -17,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import { Profile } from "../../types/profile.interface";
+import { ProfileInterface } from "../../types/profile.interface";
 
 interface ModalProps {
   isOpen: boolean;
@@ -28,7 +28,7 @@ interface ModalProps {
 }
 
 function ModalView({ isOpen, onClose, profileId, action, refreshProfiles }: ModalProps) {
-  const [profile, setProfile] = useState<Profile | null>(null);
+  const [profile, setProfile] = useState<ProfileInterface | null>(null);
   const [name, setName] = useState('');
   const [nick, setNick] = useState('');
   const [link, setLink] = useState('');
@@ -41,7 +41,7 @@ function ModalView({ isOpen, onClose, profileId, action, refreshProfiles }: Moda
 
   useEffect(() => {
     if (profileId !== undefined) {
-      axios.get<Profile>(`http://0.0.0.0:3000/profiles/${profileId}`)
+      axios.get<ProfileInterface>(`http://0.0.0.0:3000/profiles/${profileId}`)
         .then(response => {
           const data = response.data;
           setProfile(data);

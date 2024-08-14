@@ -1,14 +1,14 @@
 import { DeleteIcon, EditIcon, HamburgerIcon, RepeatClockIcon, Search2Icon, SearchIcon } from '@chakra-ui/icons';
 import { Box, Tooltip, Td,Tbody, Thead, Th, Tr, Table, TableContainer, TableCaption, Wrap, WrapItem, Avatar, Center, useToast, Input, HStack } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
-import { Profile } from '../../types/profile.interface';
+import { ProfileInterface } from '../../types/profile.interface';
 import axios from 'axios';
 import ModalView from '../modalView/ModalView';
 import ModalInclude from '../modal/ModalInclude';
 
 function TableList() {
   const toast = useToast()
-  const [profiles, setProfiles] = useState<Profile[]>([]);
+  const [profiles, setProfiles] = useState<ProfileInterface[]>([]);
   const [selectedProfileId, setSelectedProfileId] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editOrView, setEditOrView] = useState('view')  
@@ -20,7 +20,7 @@ function TableList() {
 
 
   const fetchProfiles = () => {
-    axios.get<Profile[]>(`http://0.0.0.0:3000/profiles?filter=${filter}`)
+    axios.get<ProfileInterface[]>(`http://0.0.0.0:3000/profiles?filter=${filter}`)
       .then(response => {
         setProfiles(response.data);
       })
@@ -29,7 +29,7 @@ function TableList() {
       });
   };
 
-  const handleRemoveProfile = (profile: Profile) => {
+  const handleRemoveProfile = (profile: ProfileInterface) => {
     axios.delete(`http://0.0.0.0:3000/profiles/${profile.id}`)
     .then(response => {
       const { status, message } = response.data;
@@ -76,7 +76,7 @@ function TableList() {
     setSelectedProfileId(null);
   };
 
-  const handleUpdateProfile = async (profile: Profile) => {
+  const handleUpdateProfile = async (profile: ProfileInterface) => {
     axios.put(`http://0.0.0.0:3000/profiles/${profile.id}`)
     .then(response => {
       const { status, message } = response.data;
