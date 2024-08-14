@@ -43,6 +43,16 @@ Para encurtar URLs, o código utiliza a API do Bitly, um serviço popular para t
 
 * Após a criação do cliente Bitly, o método shorten é chamado para encurtar uma URL longa (link). O shorten envia uma solicitação à API do Bitly, que retorna um objeto representando a URL encurtada. O atributo link deste objeto contém o URL encurtado gerado pelo Bitly, que pode ser utilizado para compartilhar de forma mais compacta.
 
+#  💻 Passos para montar ambiente local
+
+* Fazer o clone no GitHub
+* Entrar na pasta back-end e rodar o comando `docker compose build`
+* Após rodar `docker compose up`
+* Abrir outro aba do terminal entrar dentro do bash da aplicação e rodar `rails db:create` e depois `rails db:migrate`.
+* Entrar na pasta front-end e rodar `npm install` para baixar os pacotes.
+* Após rodar o comando `npm start` para iniciar front-end.
+
+
 #  💻 Tela inicial
 <br>
 Na tela inicial temos a listagem de todos os perfis cadastrados.
