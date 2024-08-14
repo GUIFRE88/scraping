@@ -30,7 +30,7 @@ const ModalInclude: React.FC<ModalIncludeProps> = ({ refreshProfiles }) => {
         showToast('Erro ao adicionar perfil.', message, 'error');
       }
     } catch (error) {
-     // showToast('Erro ao adicionar perfil.', error.message, 'error');
+     showToast('Erro', 'Erro ao adicionar perfil.', 'error');
     }
   };
 
