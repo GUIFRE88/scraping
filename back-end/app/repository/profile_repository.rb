@@ -2,6 +2,7 @@
 
 require 'nokogiri'
 require 'httparty'
+require 'bitly'
 
 class ProfileRepository
 
@@ -28,7 +29,7 @@ class ProfileRepository
 
     @profile = Profile.new(
       name: data[:name],
-      link: data[:link],
+      link: short_url(data[:link]),
       followers: data[:followers],
       following: data[:following],
       stars: data[:stars],
@@ -58,7 +59,7 @@ class ProfileRepository
 
     if @profile.update(
       name: data[:name],
-      link: data[:link],
+      link: short_url(data[:link]),
       followers: data[:followers],
       following: data[:following],
       stars: data[:stars],
@@ -87,6 +88,18 @@ class ProfileRepository
 
   def profile_not_found
     { status: 'error', message: 'Perfil não encontrado.' }
+  end
+
+  def short_url(link)
+    return link if is_bitly_link?(link)
+
+    bitly = Bitly::API::Client.new(token: 'c549c653fe4f9d91a7bc3160ed4805e36da30a16')
+    short_url = bitly.shorten(long_url: link)
+    short_url.link
+  end
+
+  def is_bitly_link?(link)
+    !!(link =~ /bit\.ly/)
   end
 
   def scrapping_values(name:, link:)
