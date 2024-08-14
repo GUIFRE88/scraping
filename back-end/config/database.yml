@@ -5,7 +5,6 @@ default: &default
   username: admin
   password: admin
   host: db
-  port: 3306
 
 development:
   <<: *default
@@ -18,5 +17,5 @@ test:
 production:
   <<: *default
   database: production
-  username: your_production_username
-  password: your_production_password
+  username: admin
+  password: admin

@@ -20,5 +20,6 @@ module App
     end
     config.autoload_paths += %W(#{config.root}/app/repository)
     config.autoload_paths += %W(#{config.root}/app/service)
+    config.autoload_paths += %W(#{config.root}/lib)
   end
 end
