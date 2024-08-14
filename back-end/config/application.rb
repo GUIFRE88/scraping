@@ -18,5 +18,7 @@ module App
           methods: [:get, :post, :put, :patch, :delete, :options, :head]
       end
     end
+    config.autoload_paths += %W(#{config.root}/app/repository)
+    config.autoload_paths += %W(#{config.root}/app/service)
   end
 end
