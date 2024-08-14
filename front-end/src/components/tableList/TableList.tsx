@@ -6,6 +6,7 @@ import axios from 'axios';
 import ModalView from '../modalView/ModalView';
 import ModalInclude from '../modalInclude/ModalInclude';
 import { useCustomToast } from '../../hooks/useCustomToast';
+import { deleteProfile, fetchAllProfile, updateThisProfile } from '../../services/profileService';
 
 function TableList() {
   const showToast = useCustomToast()
@@ -21,30 +22,28 @@ function TableList() {
 
 
   const fetchProfiles = () => {
-    axios.get<ProfileInterface[]>(`http://0.0.0.0:3000/profiles?filter=${filter}`)
+    fetchAllProfile(filter)
       .then(response => {
-        setProfiles(response.data);
+        setProfiles(response);
       })
       .catch(error => {
         console.error('Error fetching profiles:', error);
       });
   };
 
-  const handleRemoveProfile = (profile: ProfileInterface) => {
-    axios.delete(`http://0.0.0.0:3000/profiles/${profile.id}`)
-    .then(response => {
-      const { status, message } = response.data;
+  const handleRemoveProfile = async (profile: ProfileInterface) => {
+    try {
+      const { status, message } = await deleteProfile(profile.id);
       if (status === 'success') {
-        setProfiles(prevProfiles => prevProfiles.filter(p => p.id !== profile.id))
         showToast('Exclusão de perfil', message, 'success');
+        fetchProfiles()
       } else {
         showToast('Erro na exclusão de perfil', message, 'error');
       }
-    })
-    .catch(error => {
-      console.error('Erro ao excluir o registro:', error)
-    })
-  }
+    } catch (error) {
+      console.error('Erro ao excluir o registro:', error);
+    }
+  };
 
   const handleModalProfile = (profileId: number) => {
     setSelectedProfileId(profileId);
@@ -64,20 +63,17 @@ function TableList() {
   };
 
   const handleUpdateProfile = async (profile: ProfileInterface) => {
-    axios.put(`http://0.0.0.0:3000/profiles/${profile.id}`)
-    .then(response => {
-      const { status, message } = response.data;
+    try {
+      const { status, message } = await updateThisProfile(profile.id, profile);
       if (status === 'success') {
-        setProfiles(prevProfiles => prevProfiles.filter(p => p.id !== profile.id))
-        showToast('Perfil atualizado', message, status);
         fetchProfiles()
+        showToast('Perfil atualizado', message, 'success');
       } else {
-        showToast('Erro ao atualizar o perfil', message, status);
+        showToast('Erro ao atualizar o perfil', message, 'error');
       }
-    })
-    .catch(error => {
-      console.error('Erro ao excluir o registro:', error)
-    })
+    } catch (error) {
+      console.error('Erro ao atualizar o perfil:', error);
+    }
   };
 
   const handleFilterChange = () =>{
