@@ -27,6 +27,22 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 
 Este projeto é uma aplicação Ruby on Rails desenvolvida para realizar scraping de perfis do GitHub. O objetivo é coletar e exibir informações detalhadas sobre usuários da plataforma, proporcionando uma visão abrangente de suas atividades e características.
 
+### Busca dos valores:
+Para fazer o scraping dos valores foi utilizado gem <b>httparty</b> para fazer uma requisição para o endereço do github informado e a gem <b>nokogiri</b> foi utilizada para converter esse conteúdo HTML em uma estrutura de documento que pode ser facilmente manipulada e consultada.
+Isso permite que você acesse e extraia informações específicas do HTML, conforme será explicado a seguir:.
+
+* <b>Parsing de HTML:</b> Após obter o conteúdo HTML de uma página web usando <b>HTTParty</b>, a <b>Nokogiri</b> é utilizada para converter esse conteúdo HTML em uma estrutura de documento que pode ser facilmente manipulada e consultada. 
+
+* <b>Extração de Dados:</b> Com a estrutura de documento criada por Nokogiri, você pode usar seletores CSS e XPath para localizar e extrair elementos específicos do HTML. No seu caso, Nokogiri está sendo usado para encontrar e extrair informações como seguidores, seguindo, estrelas, contribuições, imagem do perfil, organização, localização e nome de usuário a partir do HTML da página do GitHub.
+
+### Encurtamento de link:
+
+Para encurtar URLs, o código utiliza a API do Bitly, um serviço popular para transformar URLs longas em links curtos. O processo é realizado em duas etapas principais:
+
+* A autenticação é feita através de um token de API, que deve ser fornecido pelo serviço Bitly ao registrar uma aplicação. Esse token é necessário para autorizar o acesso à API e permitir a execução de operações como encurtamento de URLs.
+
+* Após a criação do cliente Bitly, o método shorten é chamado para encurtar uma URL longa (link). O shorten envia uma solicitação à API do Bitly, que retorna um objeto representando a URL encurtada. O atributo link deste objeto contém o URL encurtado gerado pelo Bitly, que pode ser utilizado para compartilhar de forma mais compacta.
+
 #  💻 Tela inicial
 <br>
 Na tela inicial temos a listagem de todos os perfis cadastrados.
@@ -107,6 +123,9 @@ Todo projeto oferece desafios e melhorias, creio que as melhorias seriam:
  * O token do Bitly, o correto seria jogar para dentro do .env e utilizar o gitcrypt ou alguma ferramenta para criptografar fontes específicos, essa seria uma implementação interessante.
  * A parte do front-end poderia apresentar uma paginação, talvez utilizando a gem <b>will_paginate</b>. 
 
+#  💻 Gaps no projeto
+
+* Identifiquei um Gap, que utilizando a gem <b>httparty</b>  e <b>Nokogiri</b> não seria capaz resolver, seria referente a busca do valor "Nº DE CONTRIBUIÇÕES", pois esse valor ele é carregado de forma reativa após o carregamento da página e o mesmo não está presenta quando é feita a requisição utilizando a <b>httparty</b>, seria necessário utilizar algum outro meio para buscar esse valor, talvez como através da api do GitHub.
 
 # 💻 Contribuição
 Sinta-se à vontade para contribuir com melhorias ou correções! Para isso, faça um fork do repositório, crie uma branch com suas alterações e envie um pull request.
