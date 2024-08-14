@@ -1,24 +1,25 @@
-Encurtamento de URL
 
-Inicialmente pensei em utilizar a gem 'short_url' porém ela tem poucos downloads e não é muito conhecida, portando optei por utilizar a gem 'bitly', creio que essa gem consiga cumprir bem a função de realizar o encurtamento de urls.
+---
+<h1 align="center">
+  🚀 Scraping 🚀
+</h1>
+<br>
 
+Esse projeto foi desenvolvido com as seguintes tecnologias:
 
-require 'short_url'
+- [Ruby](https://www.ruby-lang.org/pt/)
+- [React](https://reactjs.org)
+- [MySql](https://www.mysql.com/)
 
-original_url = 'http://example.com/some/very/long/url'
-short_url = ShortUrl.generate(original_url)
+## 💻 Projeto
 
-puts "Shortened URL: #{short_url}"
-
-
-3. Encurtamento de URLs
-Ao cadastrar um perfil, a URL do Github deverá ser armazenada de forma encurtada, por exemplo, https://bitly.com/. Você está livre para decidir como irá implementar isso, portanto saiba justificar sua escolha.
-
-
-
+Utilizando Ruby on Rails foi criado uma aplicação de Scraping, para que seja buscado informações de usuários do GitHub.
 
 
-Bitly.use_api_version_4
-bitly = Bitly::API::Client.new(token: 'c549c653fe4f9d91a7bc3160ed4805e36da30a16')
-short_url = bitly.shorten('https://github.com/GUIFRE88')
-puts short_url.link
+
+##  💻 Exemplo página WEB
+![alt text](https://github.com/GUIFRE88/OMNISTACK10/blob/master/pictures/web.PNG)
+
+##  💻 Exemplo retorno API
+![alt text](https://github.com/GUIFRE88/OMNISTACK10/blob/master/pictures/Back.PNG)
+----
