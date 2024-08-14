@@ -46,10 +46,10 @@ Para encurtar URLs, o código utiliza a API do Bitly, um serviço popular para t
 #  💻 Passos para montar ambiente local
 
 * Fazer o clone no GitHub
-* Entrar na pasta back-end e rodar o comando `docker compose build`
+* Entrar na pasta <b>back-end</b> e rodar o comando `docker compose build`
 * Após rodar `docker compose up`
-* Abrir outro aba do terminal entrar dentro do bash da aplicação e rodar `rails db:create` e depois `rails db:migrate`.
-* Entrar na pasta front-end e rodar `npm install` para baixar os pacotes.
+* Abrir outro aba do terminal entrar dentro do bash através `docker exec -it back-end-web-1 /bin/bash` da aplicação e rodar `rails db:create` e depois `rails db:migrate`.
+* Entrar na pasta <b>front-end</b> e rodar `npm install` para baixar os pacotes.
 * Após rodar o comando `npm start` para iniciar front-end.
 
 
@@ -136,6 +136,8 @@ Todo projeto oferece desafios e melhorias, creio que as melhorias seriam:
 #  💻 Gaps no projeto
 
 * Identifiquei um Gap, que utilizando a gem <b>httparty</b>  e <b>Nokogiri</b> não seria capaz resolver, seria referente a busca do valor "Nº DE CONTRIBUIÇÕES", pois esse valor ele é carregado de forma reativa após o carregamento da página e o mesmo não está presenta quando é feita a requisição utilizando a <b>httparty</b>, seria necessário utilizar algum outro meio para buscar esse valor, talvez como através da api do GitHub.
+* Outro Gap foi a publicação da aplicação, tentei fazer no heroku porém tive alguns problemas que inviabilizaram o publicação do back-end.
+
 
 # 💻 Contribuição
 Sinta-se à vontade para contribuir com melhorias ou correções! Para isso, faça um fork do repositório, crie uma branch com suas alterações e envie um pull request.
