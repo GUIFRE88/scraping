@@ -5,9 +5,10 @@ import { ProfileInterface } from '../../types/profile.interface';
 import axios from 'axios';
 import ModalView from '../modalView/ModalView';
 import ModalInclude from '../modalInclude/ModalInclude';
+import { useCustomToast } from '../../hooks/useCustomToast';
 
 function TableList() {
-  const toast = useToast()
+  const showToast = useCustomToast()
   const [profiles, setProfiles] = useState<ProfileInterface[]>([]);
   const [selectedProfileId, setSelectedProfileId] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -35,23 +36,9 @@ function TableList() {
       const { status, message } = response.data;
       if (status === 'success') {
         setProfiles(prevProfiles => prevProfiles.filter(p => p.id !== profile.id))
-        toast({
-          title: 'Exclusão de perfil',
-          description: message,
-          status: 'success',
-          duration: 5000,
-          isClosable: true,
-          position:'bottom-right',
-        })
+        showToast('Exclusão de perfil', message, 'success');
       } else {
-        toast({
-          title: 'Erro na exclusão de perfil',
-          description: message,
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-          position:'bottom-right',
-        })
+        showToast('Erro na exclusão de perfil', message, 'error');
       }
     })
     .catch(error => {
@@ -82,24 +69,10 @@ function TableList() {
       const { status, message } = response.data;
       if (status === 'success') {
         setProfiles(prevProfiles => prevProfiles.filter(p => p.id !== profile.id))
-        toast({
-          title: 'Perfil atualizado.',
-          description: 'As informações do perfil foram atualizadas com sucesso.',
-          status: status,
-          duration: 5000,
-          isClosable: true,
-          position:'bottom-right',
-        })
+        showToast('Perfil atualizado', message, status);
         fetchProfiles()
       } else {
-        toast({
-          title: 'Erro ao atualizar o perfil',
-          description: message,
-          status: status,
-          duration: 5000,
-          isClosable: true,
-          position:'bottom-right',
-        })
+        showToast('Erro ao atualizar o perfil', message, status);
       }
     })
     .catch(error => {
