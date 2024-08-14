@@ -1,4 +1,3 @@
-// src/components/ModalInclude.tsx
 import { Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Box } from "@chakra-ui/react";
 import { useState } from "react";
 import { createProfile } from "../../services/profileService";

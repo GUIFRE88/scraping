@@ -1,116 +1,56 @@
-import { 
-  Button, 
-  FormControl, 
-  FormLabel, 
-  Input, 
-  Modal, 
-  ModalBody, 
-  ModalCloseButton, 
-  ModalContent, 
-  ModalHeader, 
-  ModalOverlay, 
-  Box, 
-  Center, 
-  Avatar, 
-  Text, 
-  Flex 
-} from "@chakra-ui/react";
-import { useState, useEffect } from "react";
-import axios from 'axios';
+// src/components/ModalView.tsx
+import { Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Box, Center, Avatar, Text, Flex } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { ProfileInterface } from "../../types/profile.interface";
+import { useProfile } from "../../hooks/useProfile";
+import { useCustomToast } from "../../hooks/useCustomToast";
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   profileId?: number;
-  action: string; // Define a ação: 'view' ou 'edit'
+  action: string // Define a ação: 'view' ou 'edit'
   refreshProfiles: () => void;
 }
 
-function ModalView({ isOpen, onClose, profileId, action, refreshProfiles }: ModalProps) {
-  const [profile, setProfile] = useState<ProfileInterface | null>(null);
+const ModalView: React.FC<ModalProps> = ({ isOpen, onClose, profileId, action, refreshProfiles }) => {
+  const { profile, loading, handleUpdateProfile } = useProfile(profileId);
   const [name, setName] = useState('');
-  const [nick, setNick] = useState('');
   const [link, setLink] = useState('');
+  const [nick, setNick] = useState('');
   const [followers, setFollowers] = useState<number>(0);
   const [following, setFollowing] = useState<number>(0);
   const [stars, setStars] = useState<number>(0);
   const [contributionsLastYear, setContributionsLastYear] = useState<number>(0);
   const [organization, setOrganization] = useState('');
   const [location, setLocation] = useState('');
+  const showToast = useCustomToast();
 
+  // Update state when profile data changes
   useEffect(() => {
-    if (profileId !== undefined) {
-      axios.get<ProfileInterface>(`http://0.0.0.0:3000/profiles/${profileId}`)
-        .then(response => {
-          const data = response.data;
-          setProfile(data);
-          setName(data.name);
-          setLink(data.link);
-          setNick(data.nick_name)
-          setFollowers(data.followers);
-          setFollowing(data.following);
-          setStars(data.stars);
-          setContributionsLastYear(data.contributions_last_year);
-          setOrganization(data.organization);
-          setLocation(data.location);
-        })
-        .catch(error => {
-          console.error('Erro ao visualizar o perfil:', error);
-        });
+    if (profile) {
+      setName(profile.name);
+      setLink(profile.link);
+      setNick(profile.nick_name);
+      setFollowers(profile.followers);
+      setFollowing(profile.following);
+      setStars(profile.stars);
+      setContributionsLastYear(profile.contributions_last_year);
+      setOrganization(profile.organization);
+      setLocation(profile.location);
     }
-  }, [profileId]);
+  }, [profile]);
 
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
-  };
-
-  const handleLinkChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLink(e.target.value);
-  };
-
-  const handleFollowersChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFollowers(Number(e.target.value));
-  };
-
-  const handleNickChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNick(e.target.value);
-  };
-
-  const handleFollowingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFollowing(Number(e.target.value));
-  };
-
-  const handleStarsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setStars(Number(e.target.value));
-  };
-
-  const handleContributionsLastYearChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setContributionsLastYear(Number(e.target.value));
-  };
-
-  const handleOrganizationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setOrganization(e.target.value);
-  };
-
-  const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLocation(e.target.value);
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Botão de submit clicado');
-    axios.put(`http://0.0.0.0:3000/profiles/${profileId}`, {
-      name,
-      link
-    })
-    .then(response => {
-      onClose()
-      refreshProfiles()
-    })
-    .catch(error => {
-      console.error('Erro ao adicionar o perfil:', error);
-    });
+    try {
+      await handleUpdateProfile({ name, link });
+      showToast('Perfil atualizado.', 'Perfil atualizado com sucesso.', 'success');
+      onClose();
+      refreshProfiles();
+    } catch (error) {
+      showToast('Erro ao atualizar perfil.', 'Ocorreu um erro ao atualizar o perfil.', 'error');
+    }
   };
 
   return (
@@ -120,20 +60,22 @@ function ModalView({ isOpen, onClose, profileId, action, refreshProfiles }: Moda
         <ModalHeader>{action === 'edit' ? 'Editar Perfil' : 'Detalhes do Perfil'}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          {profile ? (
+          {loading ? (
+            <Text>Carregando perfil...</Text>
+          ) : (
             <form onSubmit={handleSubmit}>
               <Box>
                 <Center>
-                  <Avatar size='2xl' name={profile.name} src={profile.profile_image} mb={4} />
+                  <Avatar size='2xl' name={profile?.name} src={profile?.profile_image} mb={4} />
                 </Center>
                 <FormControl mb={4}>
                   <Flex alignItems='center'>
                     <FormLabel mb={0} mr={4} flexShrink={0}>Nome:</FormLabel>
                     <Input
                       value={name}
-                      onChange={handleNameChange}
+                      onChange={(e) => setName(e.target.value)}
                       placeholder='Nome'
-                      isDisabled={action === 'view'} // Desativa o campo se estiver no modo de visualização
+                      isDisabled={action === 'view'}
                       flex='1'
                     />
                   </Flex>
@@ -143,7 +85,7 @@ function ModalView({ isOpen, onClose, profileId, action, refreshProfiles }: Moda
                     <FormLabel mb={0} mr={4} flexShrink={0}>Link:</FormLabel>
                     <Input
                       value={link}
-                      onChange={handleLinkChange}
+                      onChange={(e) => setLink(e.target.value)}
                       placeholder='Link'
                       isDisabled={action === 'view'}
                       flex='1'
@@ -155,8 +97,8 @@ function ModalView({ isOpen, onClose, profileId, action, refreshProfiles }: Moda
                     <FormLabel mb={0} mr={4} flexShrink={0}>Apelido</FormLabel>
                     <Input
                       value={nick}
-                      onChange={handleNickChange}
-                      type='string'
+                      onChange={(e) => setNick(e.target.value)}
+                      type='text'
                       isDisabled
                     />
                   </Flex>
@@ -166,7 +108,7 @@ function ModalView({ isOpen, onClose, profileId, action, refreshProfiles }: Moda
                     <FormLabel mb={0} mr={4} flexShrink={0}>Followers</FormLabel>
                     <Input
                       value={followers}
-                      onChange={handleFollowersChange}
+                      onChange={(e) => setFollowers(Number(e.target.value))}
                       type='number'
                       placeholder='Followers'
                       isDisabled
@@ -178,7 +120,7 @@ function ModalView({ isOpen, onClose, profileId, action, refreshProfiles }: Moda
                     <FormLabel mb={0} mr={4} flexShrink={0}>Following</FormLabel>
                     <Input
                       value={following}
-                      onChange={handleFollowingChange}
+                      onChange={(e) => setFollowing(Number(e.target.value))}
                       type='number'
                       placeholder='Following'
                       isDisabled
@@ -190,7 +132,7 @@ function ModalView({ isOpen, onClose, profileId, action, refreshProfiles }: Moda
                     <FormLabel mb={0} mr={4} flexShrink={0}>Stars</FormLabel>
                     <Input
                       value={stars}
-                      onChange={handleStarsChange}
+                      onChange={(e) => setStars(Number(e.target.value))}
                       type='number'
                       placeholder='Stars'
                       isDisabled
@@ -202,7 +144,7 @@ function ModalView({ isOpen, onClose, profileId, action, refreshProfiles }: Moda
                     <FormLabel mb={0} mr={4} flexShrink={0}>Contribuições no Último Ano</FormLabel>
                     <Input
                       value={contributionsLastYear}
-                      onChange={handleContributionsLastYearChange}
+                      onChange={(e) => setContributionsLastYear(Number(e.target.value))}
                       type='number'
                       placeholder='Contribuições no Último Ano'
                       isDisabled
@@ -214,7 +156,7 @@ function ModalView({ isOpen, onClose, profileId, action, refreshProfiles }: Moda
                     <FormLabel mb={0} mr={4} flexShrink={0}>Organização</FormLabel>
                     <Input
                       value={organization}
-                      onChange={handleOrganizationChange}
+                      onChange={(e) => setOrganization(e.target.value)}
                       placeholder='Organização'
                       isDisabled
                     />
@@ -225,7 +167,7 @@ function ModalView({ isOpen, onClose, profileId, action, refreshProfiles }: Moda
                     <FormLabel mb={0} mr={4} flexShrink={0}>Localização</FormLabel>
                     <Input
                       value={location}
-                      onChange={handleLocationChange}
+                      onChange={(e) => setLocation(e.target.value)}
                       placeholder='Localização'
                       isDisabled
                     />
@@ -243,13 +185,11 @@ function ModalView({ isOpen, onClose, profileId, action, refreshProfiles }: Moda
                 </Flex>
               </Box>
             </form>
-          ) : (
-            <Text>Carregando perfil...</Text>
           )}
         </ModalBody>
       </ModalContent>
     </Modal>
   );
-}
+};
 
 export default ModalView;
