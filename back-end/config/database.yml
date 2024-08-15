@@ -19,3 +19,4 @@ production:
   database: production
   username: admin
   password: admin
+  host: db # ou o hostname do serviço de banco de dados
