@@ -11,9 +11,12 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 
 - [Ruby](https://www.ruby-lang.org/pt/)
 - [React](https://reactjs.org)
+- [Chakra-ui](https://v2.chakra-ui.com/)
 - [MySql](https://www.mysql.com/)
 - [Docker](https://www.docker.com/)
 - [Bitly](https://app.bitly.com/)
+- [Render](https://render.com/)
+- [Netlify](https://app.netlify.com/)
 
 <div style="display: inline_block"><br>
   <img align="center" alt="Gui-Ruby" height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/ruby/ruby-original.svg">
@@ -26,6 +29,10 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 # 💻 Projeto
 
 Este projeto é uma aplicação Ruby on Rails desenvolvida para realizar scraping de perfis do GitHub. O objetivo é coletar e exibir informações detalhadas sobre usuários da plataforma, proporcionando uma visão abrangente de suas atividades e características.
+
+### Acesso a aplicação (deploy): 
+* https://feat-deploy--incredible-youtiao-512c96.netlify.app/
+
 
 ### Busca dos valores:
 Para fazer o scraping dos valores foi utilizado gem <b>httparty</b> para fazer uma requisição para o endereço do github informado e a gem <b>nokogiri</b> foi utilizada para converter esse conteúdo HTML em uma estrutura de documento que pode ser facilmente manipulada e consultada.
@@ -136,7 +143,12 @@ Todo projeto oferece desafios e melhorias, creio que as melhorias seriam:
 #  💻 Gaps no projeto
 
 * Identifiquei um Gap, que utilizando a gem <b>httparty</b>  e <b>Nokogiri</b> não seria capaz resolver, seria referente a busca do valor "Nº DE CONTRIBUIÇÕES", pois esse valor ele é carregado de forma reativa após o carregamento da página e o mesmo não está presenta quando é feita a requisição utilizando a <b>httparty</b>, seria necessário utilizar algum outro meio para buscar esse valor, talvez como através da api do GitHub.
-* Outro Gap foi a publicação da aplicação, tentei fazer no heroku porém tive alguns problemas que inviabilizaram o publicação do back-end.
+
+#  💻 Deploy do projeto
+
+* Foi usado o NetliFly para fazer o deploy do front-end da aplicação.
+* Foi utilizado o Render para fazer a publicação da Api e a criação do banco PostgreSql(Obs. A aplicação local, foi feita com Mysql, precisei fazer essa mudança para usar o banco do Render também.)
+* Link para acesso: https://feat-deploy--incredible-youtiao-512c96.netlify.app/
 
 
 # 💻 Contribuição
