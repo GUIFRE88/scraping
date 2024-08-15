@@ -1,7 +1,7 @@
 import axios from "axios"
 import { ProfileInterface } from '../types/profile.interface'
 
-const API_URL = 'http://0.0.0.0:3000/profiles'
+const API_URL = 'https://scraping-1-ln60.onrender.com/profiles'
 
 export const createProfile = async (name: string, link: string) => {
   try {

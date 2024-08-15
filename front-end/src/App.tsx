@@ -1,5 +1,4 @@
-import { Center, Flex, Square, Text, Box, Heading, Stack } from '@chakra-ui/react';
-import React from 'react';
+import { Center, Flex, Box, Heading } from '@chakra-ui/react';
 import TableList from './components/tableList/TableList';
 
 
