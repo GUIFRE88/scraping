@@ -53,6 +53,7 @@ Rails.application.configure do
   config.active_support.disallowed_deprecation_warnings = []
 
   config.hosts << "scraping-su41.onrender.com"
+  config.hosts << "scraping-1-ln60.onrender.com"
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
