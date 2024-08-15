@@ -1,5 +1,5 @@
 import { Box, Tooltip, Td, Tbody, Thead, Th, Tr, Table, TableContainer, Input, HStack, Center, Wrap, WrapItem, Avatar } from '@chakra-ui/react'
-import { DeleteIcon, EditIcon, HamburgerIcon, RepeatClockIcon } from '@chakra-ui/icons'
+import { DeleteIcon, EditIcon, RepeatClockIcon, ViewIcon } from '@chakra-ui/icons'
 import ModalView from '../modalView/ModalView'
 import ModalInclude from '../modalInclude/ModalInclude'
 import { useTableList } from '../../hooks/useTableList'
@@ -26,7 +26,7 @@ function TableList() {
           <Input
             placeholder='Filtrar perfis'
             onChange={handleSetFilter}
-            width='auto'
+            maxWidth='200px'
           />
           <ModalInclude refreshProfiles={handleFilterChange} />
         </HStack>
@@ -79,7 +79,7 @@ function TableList() {
                   </Td>
                   <Td onClick={() => handleModalProfile(profile.id)}>
                     <Tooltip label="Visualizar perfil do GitHub">
-                      <HamburgerIcon cursor='pointer' />
+                      <ViewIcon cursor='pointer' />
                     </Tooltip>
                   </Td>
                   <Td onClick={() => handleEditProfile(profile.id)}>
