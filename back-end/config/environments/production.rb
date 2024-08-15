@@ -82,6 +82,7 @@ Rails.application.configure do
   end
 
   config.hosts << "scraping-su41.onrender.com"
+  config.hosts << "scraping-1-ln60.onrender.com"
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
