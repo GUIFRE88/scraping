@@ -50,6 +50,11 @@ Para encurtar URLs, o código utiliza a API do Bitly, um serviço popular para t
 
 * Após a criação do cliente Bitly, o método shorten é chamado para encurtar uma URL longa (link). O shorten envia uma solicitação à API do Bitly, que retorna um objeto representando a URL encurtada. O atributo link deste objeto contém o URL encurtado gerado pelo Bitly, que pode ser utilizado para compartilhar de forma mais compacta.
 
+### Componentes do front-end:
+
+Acabei optando por utilizar a biblioteca de componentes <b>Chakra-ui</b>, pois ela oferece componentes e estilizações de uma maneira simples, temos outras como Tailwind, porém tenho mais vivência com Chakra-ui, portnato isso pesou bastante na minha escolha.
+
+
 #  💻 Passos para montar ambiente local
 
 * Fazer o clone no GitHub
