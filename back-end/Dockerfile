@@ -15,4 +15,9 @@ COPY . /app
 
 EXPOSE 3000
 
-CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+# Copiar o script de inicialização e tornar executável
+COPY entrypoint.sh /usr/bin/entrypoint.sh
+RUN chmod +x /usr/bin/entrypoint.sh
+
+# Usar o script de inicialização como o comando de entrada
+CMD ["/usr/bin/entrypoint.sh"]
