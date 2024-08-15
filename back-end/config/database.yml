@@ -1,22 +1,21 @@
 default: &default
-  adapter: mysql2
-  encoding: utf8
+  adapter: postgresql
+  encoding: unicode
   pool: 5
-  username: admin
-  password: admin
-  host: db
+  username: postgregui
+  password: uKTSmWKKf7lPrYAUrLvJ2Hi1SzqYEdl4
+  host: dpg-cqv01cd6l47c7383apu0-a
 
 development:
   <<: *default
-  database: development
+  database: postgregui
 
 test:
   <<: *default
-  database: test
+  database: postgregui
 
 production:
   <<: *default
-  database: production
-  username: admin
-  password: admin
-  host: db # ou o hostname do serviço de banco de dados
+  database: postgregui
+  username: postgregui
+  password: uKTSmWKKf7lPrYAUrLvJ2Hi1SzqYEdl4
