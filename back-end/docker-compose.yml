@@ -12,16 +12,15 @@ services:
     command: bash -c "rm -f /app/tmp/pids/server.pid && bundle exec rails server -b 0.0.0.0"
 
   db:
-    image: mysql:8.0
+    image: postgres:15
     environment:
-      MYSQL_ROOT_PASSWORD: admin
-      MYSQL_DATABASE: development
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: admin
+      POSTGRES_DB: production
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
     volumes:
-      - db_data:/var/lib/mysql
+      - db_data:/var/lib/postgresql/data
     ports:
-      - "3306:3306"
+      - "5432:5432"
 
 volumes:
   db_data:

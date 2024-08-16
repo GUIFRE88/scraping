@@ -54,6 +54,7 @@ Rails.application.configure do
   config.active_record.verbose_query_logs = true
 
   config.hosts << "scraping-su41.onrender.com"
+  config.hosts << "scraping-1-ln60.onrender.com"
 
 
   # Raises error for missing translations.
